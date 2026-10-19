@@ -16,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) CGFloat iconSize;
 
+/// YES once a dragging session has been created, so the caller can stop steering the
+/// window: from that point the pointer belongs to the drag.
+@property (nonatomic, readonly) BOOL dragSessionStarted;
+
 @end
 
 NS_ASSUME_NONNULL_END
