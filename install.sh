@@ -9,7 +9,19 @@
 # Overridable: DEVELOPER_DIR, BINDIR, PREFIX.
 set -eu
 
-export DEVELOPER_DIR="${DEVELOPER_DIR:-/Applications/Xcode-26.6.0.app/Contents/Developer}"
+# Default to the toolchain this was developed against, but fall back to whatever xcode-select
+# has picked, because other machines do not have that exact version installed.
+default_developer_dir() {
+	pinned="/Applications/Xcode-26.6.0.app/Contents/Developer"
+
+	if [ -d "$pinned" ]; then
+		echo "$pinned"
+	else
+		xcode-select -p
+	fi
+}
+
+export DEVELOPER_DIR="${DEVELOPER_DIR:-$(default_developer_dir)}"
 
 root="$(cd "$(dirname "$0")" && pwd)"
 build="$root/build"

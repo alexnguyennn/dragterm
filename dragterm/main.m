@@ -59,10 +59,9 @@ typedef NS_ENUM(NSInteger, DTDeliveryModeKind) {
 static DTDeliveryModeKind DTDeliveryMode = DTDeliveryModeUnset;
 
 static BOOL DTDraggingIsUnavailable(void) {
-	if (@available(macOS 26.0, *))
-		return YES;
-
-	return NO;
+	// Reading the version from NSProcessInfo rather than @available(macOS 26.0, *) so that
+	// this also compiles against an older SDK, which is what an older machine will have.
+	return NSProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 26;
 }
 
 static BOOL DTShouldUseClipboard(void) {
